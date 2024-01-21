@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Profile</h3>
+                    <form method="POST">
+                        <!-- CSRF Protection -->
+
+
+                        <div class="form-group">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name"
+                                   value="{{ current_user.last_name or '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="drug_testing_phone">Drug Testing Phone</label>
+                            <input type="text" class="form-control" id="drug_testing_phone" name="drug_testing_phone"
+                                   value="{{ current_user.drug_testing_phone or '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ivr_code">IVR Code</label>
+                            <input type="text" class="form-control" id="ivr_code" name="ivr_code"
+                                   value="{{ current_user.ivr_code or '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mobile_number1">Mobile Number 1</label>
+                            <input type="tel" class="form-control" id="mobile_number1" name="mobile_number1"
+                                   value="{{ current_user.mobile_number1 or '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mobile_number2">Mobile Number 2</label>
+                            <input type="tel" class="form-control" id="mobile_number2" name="mobile_number2"
+                                   value="{{ current_user.mobile_number2 or '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkin_time">Check-In Time (HH:MM AM/PM)</label>
+                            <input type="time" class="form-control" id="checkin_time" name="checkin_time"
+                                   value="{{ current_user.checkin_time.strftime('%H:%M') if current_user.checkin_time else '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Days of Week</label><br>
+                            {% set days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+                            {% set selected_days = current_user.days_of_week.split(',') if current_user.days_of_week else [] %}
+                            {% for day in days %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="{{ day }}" name="days_of_week"
+                                           value="{{ day }}"
+                                            {% if day in selected_days %} checked {% endif %}>
+                                    <label class="form-check-label" for="{{ day }}">{{ day }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
